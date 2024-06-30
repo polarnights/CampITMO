@@ -17,9 +17,9 @@ spec:
     spec:
       containers:
       - name: app
-        image: cr.yandex/crp5i2al1h7vacmtgpnm/todo2:amd64
+        image: cr.yandex/crp0irehbbj1n4pd0tf1/flask-app:first-ver
         ports:
-          - containerPort: 80
+          - containerPort: 8080
             name: "http-server"
         resources:
           requests:

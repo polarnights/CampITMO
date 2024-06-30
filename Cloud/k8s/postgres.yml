@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  labels:
+    app: vault
+spec:
+  selector:
+    app: vault
+  ports:
+    - port: 5432
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgresql
+  labels:
+    app: todo
+spec:
+  containers:
+    - image: postgres
+      name: postgres
+      env:
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_USER
+          value: username
+        - name: POSTGRES_DB
+          value: hw_db
+      ports:
+        - containerPort: 5432
+          name: postgres
