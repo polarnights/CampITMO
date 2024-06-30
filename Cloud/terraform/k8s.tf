@@ -27,7 +27,7 @@ provider "yandex" {
   cloud_id  = var.cloud_id
   folder_id = var.folder_id
   zone      = var.zone
-  service_account_key_file = file("../key.json")
+  service_account_key_file = file("../../Other/key.json")
 }
 
 resource "yandex_kubernetes_cluster" "k8s-zonal" {
@@ -71,28 +71,28 @@ resource "yandex_iam_service_account" "myaccount" {
 
 resource "yandex_resourcemanager_folder_iam_member" "k8s-clusters-agent" {
   # Сервисному аккаунту назначается роль "k8s.clusters.agent".
-  folder_id = local.folder_id
+  folder_id = var.folder_id
   role      = "k8s.clusters.agent"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "vpc-public-admin" {
   # Сервисному аккаунту назначается роль "vpc.publicAdmin".
-  folder_id = local.folder_id
+  folder_id = var.folder_id
   role      = "vpc.publicAdmin"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "images-puller" {
   # Сервисному аккаунту назначается роль "container-registry.images.puller".
-  folder_id = local.folder_id
+  folder_id = var.folder_id
   role      = "container-registry.images.puller"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
   # Сервисному аккаунту назначается роль "kms.keys.encrypterDecrypter".
-  folder_id = local.folder_id
+  folder_id = var.folder_id
   role      = "kms.keys.encrypterDecrypter"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
