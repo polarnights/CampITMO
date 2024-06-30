@@ -11,7 +11,12 @@
 ### Команда
 
 
-TODO w/ links gh
+Кривошеин Алексей Евгеньевич - https://github.com/haphop228
+Осадчев Тимофей Владимирович - https://github.com/whytimmy
+Кузьмичева Мария Алексеевна - https://github.com/kuzmichovamary
+Олигер Никита Александрович - https://github.com/polarnights
+Жилин Андрей Игоревич - https://github.com/atari_boy_
+Куранов Григорий Сергеевич - https://github.com/gr1shan1a
 
 ---
 
