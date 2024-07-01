@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: StatefulSet
+metadata:
+  name: vault
+  namespace: vault
+  labels:
+    app: vault
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vault
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      containers:
+      - name: app
+        image: hashicorp/vault:1.17.1
+        ports:
+          - containerPort: 8200
+            name: https
+          - containerPort: 8201
+            name: https-internal
+        resources:
+          requests:
+            memory: 250Mi
+            cpu: 300m
+          limits:
+            memory: 1Gi
+            cpu: 600m
+        env:
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          - name: VAULT_ADDR
+            value: "http://127.0.0.1:8200"
+          - name: VAULT_API_ADDR
+            value: "http://$(POD_IP):8200"
+          - name: SKIP_CHOWN
+            value: "true"
+          - name: SKIP_SETCAP
+            value: "true"
+          - name: VAULT_CLUSTER_ADDR
+            value: "http://$(HOSTNAME).vault-internal:8201"
