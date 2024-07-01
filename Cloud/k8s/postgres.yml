@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: postgres-service
   labels:
-    app: vault
+    app: app
 spec:
   selector:
-    app: vault
+    app: app
   ports:
     - port: 5432
 ---
@@ -15,7 +15,7 @@ kind: Pod
 metadata:
   name: postgresql
   labels:
-    app: todo
+    app: app
 spec:
   containers:
     - image: postgres
