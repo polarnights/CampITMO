@@ -33,13 +33,3 @@ spec:
             value: postgres-service
           - name: DATABASE_URI
             value: postgresql://username:password@postgres-service:5432/hw_db?sslmode=disable
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - vault
-              topologyKey: kubernetes.io/hostname
