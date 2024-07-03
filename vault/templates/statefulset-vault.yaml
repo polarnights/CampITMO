@@ -144,11 +144,11 @@ spec:
             - name: home
               mountPath: /home/vault
           ports:
-            - containerPort: 8200
+            - containerPort: {{ .Values.service.http }}
               name: http
-            - containerPort: 8201
-              name: https-internal
-            - containerPort: 8202
+            - containerPort: {{ .Values.service.http-internal }}
+              name: http-internal
+            - containerPort: {{ .Values.service.http-rep }}
               name: http-rep
           readinessProbe:
             # Check status; unsealed vault servers return 0

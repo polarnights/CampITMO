@@ -1,4 +1,5 @@
 flask-project-01/
 Other/
 .terraform*
+*.tfstate*
 vault-helm/

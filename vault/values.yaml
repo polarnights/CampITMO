@@ -14,9 +14,10 @@ image:
   tag: "1.16.1"
 
 service:
-  type: ClusterIP
-  port: 8200
-  targetPort: 8200
+  http: 8200
+  http-targetPort: 8200
+  http-internal: 8201
+  http-rep: 8202
 
 storage:
   size: 10Gi

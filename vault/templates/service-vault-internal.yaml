@@ -16,10 +16,10 @@ spec:
   clusterIP: None
   publishNotReadyAddresses: true
   ports:
-    - name: "http"
+    - name: http
       port: 8200
       targetPort: 8200
-    - name: https-internal
+    - name: http-internal
       port: 8201
       targetPort: 8201
   selector:
