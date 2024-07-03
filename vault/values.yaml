@@ -2,17 +2,24 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+replicaCount: 3
+
+server:
+  affinity: false
+
 
 image:
-  repository: nginx
+  repository: hashicorp/vault
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "1.16.1"
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+service:
+  type: ClusterIP
+  port: 8200
+  targetPort: 8200
+
+storage:
+  size: 10Gi
 
 serviceAccount:
   # Specifies whether a service account should be created
