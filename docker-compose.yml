@@ -21,5 +21,6 @@ services:
       - POSTGRES_PASSWORD=hello_flask
       - POSTGRES_DB=hello_flask_dev
 
+
 volumes:
   postgres_data:
