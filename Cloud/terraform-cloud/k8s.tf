@@ -22,7 +22,6 @@ variable "zone" {
 }
 
 
-
 provider "yandex" {
   cloud_id  = var.cloud_id
   folder_id = var.folder_id
@@ -147,5 +146,56 @@ resource "yandex_vpc_security_group" "k8s-public-services" {
     v4_cidr_blocks    = ["0.0.0.0/0"]
     from_port         = 0
     to_port           = 65535
+  }
+}
+
+resource "yandex_kubernetes_node_group" "nodegroup" {
+  cluster_id  = yandex_kubernetes_cluster.k8s-zonal.id
+  name        = "nodegroup"
+  description = "group"
+  version     = "1.27"
+
+  labels = {
+    "key" = "value"
+  }
+
+  instance_template {
+    platform_id = "standard-v2"
+
+    resources {
+      core_fraction = 5
+      memory = 2
+      cores  = 2
+    }
+
+    boot_disk {
+      type = "network-hdd"
+      size = 64
+    }
+
+    scheduling_policy {
+      preemptible = false
+    }
+
+    container_runtime {
+      type = "containerd"
+    }
+  }
+
+  scale_policy {
+    fixed_scale {
+      size = 2
+    }
+  }
+
+  allocation_policy {
+    location {
+      zone = "ru-central1-a"
+    }
+  }
+
+  maintenance_policy {
+    auto_upgrade = true
+    auto_repair  = true
   }
 }
