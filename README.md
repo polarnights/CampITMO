@@ -19,7 +19,7 @@
 
 Олигер Никита Александрович - https://github.com/polarnights
 
-Жилин Андрей Игоревич - https://github.com/atari_boy_
+Жилин Андрей Игоревич - https://github.com/tengenatari
 
 Куранов Григорий Сергеевич - https://github.com/gr1shan1a
 
