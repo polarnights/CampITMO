@@ -1,5 +1,6 @@
 flask-project-01/
 Other/
 .terraform*
+Cloud/terraform-cloud/terraform.tfstate*
 *tfstate*
 vault-helm/
