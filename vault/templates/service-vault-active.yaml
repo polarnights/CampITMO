@@ -18,8 +18,8 @@ spec:
       port: {{ .Values.service.http }}
       targetPort: {{ .Values.service.http }}
     - name: http-internal
-      port: {{ .Values.service.http-internal }}
-      targetPort: {{ .Values.service.http-internal }}
+      port: {{ .Values.service.httpInternal }}
+      targetPort: {{ .Values.service.httpInternal }}
   selector:
     app.kubernetes.io/name: vault
     app.kubernetes.io/instance: vault

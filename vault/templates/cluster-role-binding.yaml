@@ -3,6 +3,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: vault-server-binding
+  annotations:
+    meta.helm.sh/release-name: "vault"
+    meta.helm.sh/release-namespace: "default"
   labels:
     helm.sh/chart: vault-0.28.0
     app.kubernetes.io/name: vault

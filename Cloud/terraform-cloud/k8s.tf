@@ -180,6 +180,10 @@ resource "yandex_kubernetes_node_group" "nodegroup" {
     container_runtime {
       type = "containerd"
     }
+
+    network_interface {
+      assign_public_ip = true
+    }
   }
 
   scale_policy {
@@ -198,4 +202,8 @@ resource "yandex_kubernetes_node_group" "nodegroup" {
     auto_upgrade = true
     auto_repair  = true
   }
+}
+
+output "kubernetes_cluster_id" {
+  value = yandex_kubernetes_cluster.k8s-zonal.id
 }
