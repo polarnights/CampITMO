@@ -15,3 +15,9 @@
 2. `terraform apply -auto-aprove -var-file vars.tfvars` -- создаются политики и пользователи с помощью `terraform`.
 
 После выполнения пункта `1` можно зайти на [http://localhost:8200/](http://localhost:8200/) и потыкать в UI `vault`.
+
+## Запустить на кластере в облаке
+
+0. подключиться к кластеру в облаку
+1. `kubectl port-forward svc/vault 8200:8200 -n vault`
+2. `terraform apply -var-file .\vars.tfvars`
