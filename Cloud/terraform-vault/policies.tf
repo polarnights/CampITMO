@@ -12,8 +12,3 @@ resource "vault_policy" "user3_policy" {
   name = "user3"
   policy = file("policies/user3.hcl")
 }
-
-resource "vault_policy" "admin_policy" {
-  name   = "admins"
-  policy = file("policies/admin.hcl")
-}
