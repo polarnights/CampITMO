@@ -11,23 +11,18 @@
 ### Команда
 
 
-Кривошеин Алексей Евгеньевич - https://github.com/haphop228
-
-Осадчев Тимофей Владимирович - https://github.com/whytimmy
-
-Кузьмичева Мария Алексеевна - https://github.com/kuzmichovamary
-
-Олигер Никита Александрович - https://github.com/polarnights
-
-Жилин Андрей Игоревич - https://github.com/tengenatari
-
-Куранов Григорий Сергеевич - https://github.com/gr1shan1a
+- Кривошеин Алексей Евгеньевич - https://github.com/haphop228
+- Осадчев Тимофей Владимирович - https://github.com/whytimmy
+- Кузьмичева Мария Алексеевна - https://github.com/kuzmichovamary
+- Олигер Никита Александрович - https://github.com/polarnights
+- Жилин Андрей Игоревич - https://github.com/tengenatari
+- Куранов Григорий Сергеевич - https://github.com/gr1shan1a
 
 ---
 
 ### Ментор
 
-TODO w/ link gh
+tg: @KotDimos
 
 ---
 
