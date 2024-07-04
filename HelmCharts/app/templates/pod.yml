@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgresql
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: postgres
+spec:
+  containers:
+    - image: {{ .Values.postgres.image }}
+      name: postgres
+      env:
+        - name: POSTGRES_PASSWORD
+          value: {{ .Values.postgres.env.postgresPassword }}
+        - name: POSTGRES_USER
+          value: {{ .Values.postgres.env.postgresUser }}
+        - name: POSTGRES_DB
+          value: {{ .Values.postgres.env.postgresDb }}
+        - name: PGDATA
+          value: /var/lib/postgresql/data/hw_db
+      ports:
+        - containerPort: {{ .Values.postgres.servicePort }}
+          name: postgres
+      volumeMounts:
+        - name: pgdata
+          mountPath: /var/lib/postgresql/data/
+      resources:
+        requests:
+          memory: {{ .Values.resources.requests.memory }}
+          cpu: {{ .Values.resources.requests.cpu }}
+        limits:
+          memory: {{ .Values.resources.limits.memory }}
+          cpu: {{ .Values.resources.limits.cpu }}
+  volumes:
+    - name: pgdata
+      persistentVolumeClaim:
+        claimName: postgres-claim

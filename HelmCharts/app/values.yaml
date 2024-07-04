@@ -1,0 +1,33 @@
+namespace: app
+
+replicaCount: 1
+
+image:
+  repository: cr.yandex/crp0irehbbj1n4pd0tf1/flask-app
+  tag: v6
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  requests:
+    memory: 250Mi
+    cpu: 300m
+  limits:
+    memory: 1Gi
+    cpu: 600m
+
+env:
+  databaseHost: postgres-service
+  databaseUri: postgresql://username:password@postgres-service:5432/hw_db?sslmode=disable
+
+postgres:
+  image: postgres
+  servicePort: 5432
+  persistentVolumeSize: 1Gi
+  env:
+    postgresPassword: password
+    postgresUser: username
+    postgresDb: hw_db
