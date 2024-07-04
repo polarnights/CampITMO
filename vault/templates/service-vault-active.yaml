@@ -15,11 +15,11 @@ spec:
   publishNotReadyAddresses: true
   ports:
     - name: http
-      port: 8200
-      targetPort: 8200
+      port: {{ .Values.service.http }}
+      targetPort: {{ .Values.service.http }}
     - name: http-internal
-      port: 8201
-      targetPort: 8201
+      port: {{ .Values.service.http-internal }}
+      targetPort: {{ .Values.service.http-internal }}
   selector:
     app.kubernetes.io/name: vault
     app.kubernetes.io/instance: vault

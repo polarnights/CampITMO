@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: cr.yandex/crp0irehbbj1n4pd0tf1/flask-app:v2
+        image: cr.yandex/crp0irehbbj1n4pd0tf1/flask-app:v6
         ports:
           - containerPort: 8000
             name: "http-server"

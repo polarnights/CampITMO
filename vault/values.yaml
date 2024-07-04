@@ -19,8 +19,9 @@ service:
   http-internal: 8201
   http-rep: 8202
 
-storage:
-  size: 10Gi
+resources:
+  storage:
+    size: 10Gi
 
 serviceAccount:
   # Specifies whether a service account should be created
