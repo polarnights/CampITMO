@@ -18,6 +18,11 @@
 
 ## Запустить на кластере в облаке
 
-0. подключиться к кластеру в облаку
+0. подключиться к кластеру в облаку и заполнить файл `vars.tfvars`
 1. `kubectl port-forward svc/vault 8200:8200 -n vault`
-2. `terraform apply -var-file .\vars.tfvars`
+2. `terraform init`
+3. `terraform apply -var-file vars.tfvars`
+
+### Как откатить изменения?
+
+`terraform destroy -var-file vars.tfvars`
