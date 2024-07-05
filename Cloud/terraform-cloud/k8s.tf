@@ -7,8 +7,6 @@ terraform {
   required_version = ">= 0.13"
 }
 
-
-
 variable "cloud_id" {
   type = string
 }
@@ -21,35 +19,11 @@ variable "zone" {
   type = string
 }
 
-
 provider "yandex" {
   cloud_id  = var.cloud_id
   folder_id = var.folder_id
   zone      = var.zone
   service_account_key_file = file("../../Other/key.json")
-}
-
-resource "yandex_kubernetes_cluster" "k8s-zonal" {
-  name = "k8s-zonal"
-  network_id = yandex_vpc_network.mynet.id
-  master {
-    master_location {
-      zone      = yandex_vpc_subnet.mysubnet.zone
-      subnet_id = yandex_vpc_subnet.mysubnet.id
-    }
-    security_group_ids = [yandex_vpc_security_group.k8s-public-services.id]
-  }
-  service_account_id      = yandex_iam_service_account.myaccount.id
-  node_service_account_id = yandex_iam_service_account.myaccount.id
-  depends_on = [
-    yandex_resourcemanager_folder_iam_member.k8s-clusters-agent,
-    yandex_resourcemanager_folder_iam_member.vpc-public-admin,
-    yandex_resourcemanager_folder_iam_member.images-puller,
-    yandex_resourcemanager_folder_iam_member.encrypterDecrypter
-  ]
-  kms_provider {
-    key_id = yandex_kms_symmetric_key.kms-key.id
-  }
 }
 
 resource "yandex_vpc_network" "mynet" {
@@ -59,7 +33,7 @@ resource "yandex_vpc_network" "mynet" {
 resource "yandex_vpc_subnet" "mysubnet" {
   name = "mysubnet"
   v4_cidr_blocks = ["10.1.0.0/16"]
-  zone           = "ru-central1-a"
+  zone           = var.zone
   network_id     = yandex_vpc_network.mynet.id
 }
 
@@ -69,35 +43,30 @@ resource "yandex_iam_service_account" "myaccount" {
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "k8s-clusters-agent" {
-  # Сервисному аккаунту назначается роль "k8s.clusters.agent".
   folder_id = var.folder_id
   role      = "k8s.clusters.agent"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "vpc-public-admin" {
-  # Сервисному аккаунту назначается роль "vpc.publicAdmin".
   folder_id = var.folder_id
   role      = "vpc.publicAdmin"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "images-puller" {
-  # Сервисному аккаунту назначается роль "container-registry.images.puller".
   folder_id = var.folder_id
   role      = "container-registry.images.puller"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
-  # Сервисному аккаунту назначается роль "kms.keys.encrypterDecrypter".
   folder_id = var.folder_id
   role      = "kms.keys.encrypterDecrypter"
   member    = "serviceAccount:${yandex_iam_service_account.myaccount.id}"
 }
 
 resource "yandex_kms_symmetric_key" "kms-key" {
-  # Ключ Yandex Key Management Service для шифрования важной информации, такой как пароли, OAuth-токены и SSH-ключи.
   name              = "kms-key"
   default_algorithm = "AES_128"
   rotation_period   = "8760h" # 1 год.
@@ -149,6 +118,32 @@ resource "yandex_vpc_security_group" "k8s-public-services" {
   }
 }
 
+resource "yandex_kubernetes_cluster" "k8s-zonal" {
+  name = "k8s-zonal"
+  network_id = yandex_vpc_network.mynet.id
+  master {
+    master_location {
+      zone      = yandex_vpc_subnet.mysubnet.zone
+      subnet_id = yandex_vpc_subnet.mysubnet.id
+    }
+    
+    public_ip = true
+
+    security_group_ids = [yandex_vpc_security_group.k8s-public-services.id]
+  }
+  service_account_id      = yandex_iam_service_account.myaccount.id
+  node_service_account_id = yandex_iam_service_account.myaccount.id
+  depends_on = [
+    yandex_resourcemanager_folder_iam_member.k8s-clusters-agent,
+    yandex_resourcemanager_folder_iam_member.vpc-public-admin,
+    yandex_resourcemanager_folder_iam_member.images-puller,
+    yandex_resourcemanager_folder_iam_member.encrypterDecrypter
+  ]
+  kms_provider {
+    key_id = yandex_kms_symmetric_key.kms-key.id
+  }
+}
+
 resource "yandex_kubernetes_node_group" "nodegroup" {
   cluster_id  = yandex_kubernetes_cluster.k8s-zonal.id
   name        = "nodegroup"
@@ -164,7 +159,7 @@ resource "yandex_kubernetes_node_group" "nodegroup" {
 
     resources {
       core_fraction = 5
-      memory = 2
+      memory = 4
       cores  = 2
     }
 
@@ -180,10 +175,6 @@ resource "yandex_kubernetes_node_group" "nodegroup" {
     container_runtime {
       type = "containerd"
     }
-
-    network_interface {
-      assign_public_ip = true
-    }
   }
 
   scale_policy {
@@ -194,7 +185,7 @@ resource "yandex_kubernetes_node_group" "nodegroup" {
 
   allocation_policy {
     location {
-      zone = "ru-central1-a"
+      zone = var.zone
     }
   }
 
@@ -202,8 +193,4 @@ resource "yandex_kubernetes_node_group" "nodegroup" {
     auto_upgrade = true
     auto_repair  = true
   }
-}
-
-output "kubernetes_cluster_id" {
-  value = yandex_kubernetes_cluster.k8s-zonal.id
 }

@@ -29,3 +29,11 @@ output "vault-repository-name" {
 output "flask-app-repository-name" {
   value = yandex_container_repository.flask-app.name
 }
+
+output "kubernetes_cluster_id" {
+  value = yandex_kubernetes_cluster.k8s-zonal.id
+}
+
+output "kubernetes_cluster_endpoint" {
+  value = yandex_kubernetes_cluster.k8s-zonal.master.0.external_v4_endpoint
+}
