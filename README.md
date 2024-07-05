@@ -4,7 +4,7 @@
 
 ### Тема
 
-Разработка helm-чарта и пайплайна развертывания приложения на flask с надёжным хранением секретов в Vault.
+Разработка *helm*-чарта и пайплайна развертывания приложения на *flask* с надёжным хранением секретов в *Vault*.
 
 ---
 
@@ -22,12 +22,18 @@
 
 ### Ментор
 
-tg: @KotDimos
+*Дмитрий Филипцев* \
+tg: [@KotDimos](http://t.me/KotDimos)
 
 ---
 
-### Работаем с приложение на flask, ниже ссылка
+### Работаем с приложением на flask, ниже ссылка на оригинальный репозиторий
 
 - [Flask-приложение](https://gitfront.io/r/deusops/Fsjok1dx89xG/flask-project-01/)
 
-TODO Перенести ссылки из тг чата
+## Ссылки на readme.md при выполнении проекта
+1) [docker, docker-compose](/docker/README.md)
+2) [kubernetes](/Cloud/k8s/README.md)
+3) [terraform-vault](Cloud/terraform-vault/README.md)
+4) [helm-charts](/HelmCharts/app/README.md)
+5) [vault](/vault/README.md)
